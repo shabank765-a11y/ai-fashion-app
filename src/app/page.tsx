@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { CSSProperties } from "react";
 
 const models = [
   // FEMALE MODELS
@@ -186,6 +187,79 @@ function getOutputImage0(value: unknown): string | null {
   return typeof first === "string" ? first : null;
 }
 
+function IconOutlineImage({ size = 18 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+    >
+      <rect
+        x="3"
+        y="3"
+        width="18"
+        height="18"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <circle cx="8.75" cy="8.75" r="1.5" fill="currentColor" />
+      <polyline
+        points="21 15 16 10 5 21"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function IconOutlineUser({ size = 18 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+    >
+      <circle cx="12" cy="8" r="3.25" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M6.5 19.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function IconOutlineZap({ size = 17 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+    >
+      <path
+        d="M13 2.5L4.5 14H11l-1.5 7.5L19.5 10H13L13 2.5Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export default function Home() {
   const [garmentBase64, setGarmentBase64] = useState<string | null>(null);
   const [productImage, setProductImage] = useState<File | null>(null);
@@ -343,68 +417,183 @@ export default function Home() {
     (mode === "advanced" && (!topImage || !bottomImage)) ||
     isLoading;
 
+  const uploadZoneStyle: CSSProperties = {
+    border: "2px dashed #d1d5db",
+    borderRadius: "12px",
+    padding: "20px",
+    textAlign: "center",
+    cursor: "pointer",
+    backgroundColor: "rgba(255,255,255,0.55)",
+  };
+
+  const primaryBtn: CSSProperties = {
+    padding: "12px 20px",
+    borderRadius: "10px",
+    border: "none",
+    backgroundColor: "#111827",
+    color: "#ffffff",
+    cursor: "pointer",
+    fontSize: "14px",
+    fontWeight: 500,
+  };
+
+  const secondaryToggle = (selected: boolean): CSSProperties => ({
+    padding: "12px 20px",
+    borderRadius: "10px",
+    marginRight: "10px",
+    border: selected ? "1px solid #111827" : "1px solid #d1d5db",
+    backgroundColor: selected ? "#111827" : "#ffffff",
+    color: selected ? "#ffffff" : "#374151",
+    cursor: "pointer",
+    fontSize: "14px",
+    fontWeight: 500,
+  });
+
   return (
-    <main className="min-h-screen bg-white px-6 text-zinc-900 antialiased">
-      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "20px" }}>
-        <div className="mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center text-center">
-          <h1 className="text-center text-5xl font-semibold leading-tight tracking-tight sm:text-6xl">
+    <main
+      className="min-h-screen antialiased"
+      style={{
+        minHeight: "100vh",
+        background:
+          "radial-gradient(circle at top, #ffffff, #f1f5f9)",
+        color: "#111827",
+      }}
+    >
+      <header
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 10,
+          height: "60px",
+          boxSizing: "border-box",
+          background: "rgba(255,255,255,0.8)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+          borderBottom: "1px solid rgba(0,0,0,0.06)",
+          display: "flex",
+          alignItems: "center",
+          paddingLeft: "20px",
+        }}
+      >
+        <span style={{ fontWeight: 600, fontSize: "16px", color: "#111827" }}>
+          Modelize
+        </span>
+      </header>
+
+      <div
+        className="mx-auto w-full"
+        style={{
+          maxWidth: "900px",
+          margin: "40px auto",
+          padding: "20px",
+        }}
+      >
+        <div className="mb-12 text-center">
+          <h1
+            style={{
+              fontSize: "clamp(28px, 4vw, 32px)",
+              fontWeight: 600,
+              color: "#111827",
+              lineHeight: 1.25,
+              letterSpacing: "-0.3px",
+            }}
+          >
             Generate product photos for your clothing brand instantly
           </h1>
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-zinc-800 sm:text-4xl">
+          <h2
+            className="mt-4"
+            style={{
+              fontSize: "14px",
+              fontWeight: 600,
+              color: "#6b7280",
+              letterSpacing: "-0.2px",
+            }}
+          >
             AI Fashion Studio
           </h2>
-          <p className="mt-4 text-lg text-zinc-600 sm:text-xl">
+          <p
+            className="mt-2"
+            style={{
+              fontSize: "14px",
+              color: "#6b7280",
+            }}
+          >
             From product image to model photo in seconds
           </p>
+        </div>
 
-          <div className="mt-10 w-full">
-            <div className="mx-auto flex w-full max-w-md flex-col items-stretch gap-3">
-              <div className="flex items-center">
+        <div
+          className="flex w-full flex-col"
+          style={{ gap: "22px", alignItems: "stretch" }}
+        >
+          <section className="saas-card">
+              <div
+                style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}
+              >
               <button
                 type="button"
+                className={
+                  selectedGender === "female"
+                    ? "saas-btn-solid"
+                    : "saas-btn-outline"
+                }
                 onClick={() => {
                   setSelectedGender("female");
                   const firstFemale = models.find((m) => m.gender === "female");
                   setSelectedModel(firstFemale ?? models[0]);
                 }}
-                style={{
-                  padding: "10px 20px",
-                  borderRadius: "8px",
-                  marginRight: "10px",
-                  border: "1px solid #ccc",
-                  backgroundColor:
-                    selectedGender === "female" ? "#007bff" : "white",
-                  color: selectedGender === "female" ? "white" : "black",
-                  cursor: "pointer",
-                }}
+                style={secondaryToggle(selectedGender === "female")}
               >
                 Female
               </button>
               <button
                 type="button"
+                className={
+                  selectedGender === "male"
+                    ? "saas-btn-solid"
+                    : "saas-btn-outline"
+                }
                 onClick={() => {
                   setSelectedGender("male");
                   const firstMale = models.find((m) => m.gender === "male");
                   setSelectedModel(firstMale ?? models[0]);
                 }}
-                style={{
-                  padding: "10px 20px",
-                  borderRadius: "8px",
-                  marginRight: "10px",
-                  border: "1px solid #ccc",
-                  backgroundColor:
-                    selectedGender === "male" ? "#007bff" : "white",
-                  color: selectedGender === "male" ? "white" : "black",
-                  cursor: "pointer",
-                }}
+                style={secondaryToggle(selectedGender === "male")}
               >
                 Male
               </button>
             </div>
 
-            <h2 className="mt-4 text-left text-lg font-semibold">
-              Select a Model
-            </h2>
+            <div
+              className="mt-6"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+              }}
+            >
+              <span
+                style={{
+                  display: "flex",
+                  color: "#6b7280",
+                  flexShrink: 0,
+                }}
+                aria-hidden
+              >
+                <IconOutlineUser size={18} />
+              </span>
+              <h2
+                style={{
+                  margin: 0,
+                  fontSize: "17px",
+                  fontWeight: 600,
+                  color: "#111827",
+                }}
+              >
+                Select Model
+              </h2>
+            </div>
 
             <div
               style={{
@@ -417,27 +606,44 @@ export default function Home() {
                 <img
                   key={model.id}
                   src={model.image}
+                  className={
+                    selectedModel.id === model.id
+                      ? "saas-model-thumb saas-model-thumb--selected"
+                      : "saas-model-thumb"
+                  }
                   style={{
                     width: "100%",
                     cursor: "pointer",
-                    borderRadius: "10px",
+                    borderRadius: "12px",
                     objectFit: "cover",
                     height: "180px",
                     border:
                       selectedModel.id === model.id
-                        ? "3px solid #007bff"
-                        : "1px solid gray",
-                    transform:
-                      selectedModel.id === model.id ? "scale(1.03)" : "scale(1)",
+                        ? "2px solid #111827"
+                        : "1px solid #e5e7eb",
                   }}
                   onClick={() => setSelectedModel(model)}
                 />
               ))}
             </div>
+          </section>
 
-            <div className="flex items-center">
+          <hr className="saas-divider" />
+
+          <section className="saas-card">
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "10px",
+                marginBottom: "20px",
+              }}
+            >
               <button
                 type="button"
+                className={
+                  mode === "simple" ? "saas-btn-solid" : "saas-btn-outline"
+                }
                 onClick={() => {
                   setMode("simple");
                   setTopImage(null);
@@ -445,34 +651,21 @@ export default function Home() {
                   setTopPreview(null);
                   setBottomPreview(null);
                 }}
-                style={{
-                  padding: "10px 20px",
-                  borderRadius: "8px",
-                  marginRight: "10px",
-                  border: "1px solid #ccc",
-                  backgroundColor: mode === "simple" ? "#007bff" : "white",
-                  color: mode === "simple" ? "white" : "black",
-                  cursor: "pointer",
-                }}
+                style={secondaryToggle(mode === "simple")}
               >
                 Simple Mode
               </button>
               <button
                 type="button"
+                className={
+                  mode === "advanced" ? "saas-btn-solid" : "saas-btn-outline"
+                }
                 onClick={() => {
                   setMode("advanced");
                   setProductImage(null);
                   setProductPreview(null);
                 }}
-                style={{
-                  padding: "10px 20px",
-                  borderRadius: "8px",
-                  marginRight: "10px",
-                  border: "1px solid #ccc",
-                  backgroundColor: mode === "advanced" ? "#007bff" : "white",
-                  color: mode === "advanced" ? "white" : "black",
-                  cursor: "pointer",
-                }}
+                style={secondaryToggle(mode === "advanced")}
               >
                 Advanced Mode
               </button>
@@ -480,34 +673,75 @@ export default function Home() {
 
             {mode === "simple" ? (
               <>
-                <h3 className="text-left text-sm font-medium text-zinc-700">
-                  Upload Outfit
-                </h3>
+                <div
+                  className="mt-1"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "flex",
+                      color: "#6b7280",
+                      flexShrink: 0,
+                    }}
+                    aria-hidden
+                  >
+                    <IconOutlineImage size={18} />
+                  </span>
+                  <h3
+                    style={{
+                      margin: 0,
+                      fontSize: "15px",
+                      fontWeight: 600,
+                      color: "#111827",
+                    }}
+                  >
+                    Upload Image
+                  </h3>
+                </div>
 
                 {mode === "simple" && productPreview ? (
-                  <div className="text-left">
+                  <div className="text-center">
                     <img
                       src={productPreview}
                       style={{
                         width: "200px",
-                        borderRadius: "10px",
-                        marginTop: "10px",
+                        maxWidth: "100%",
+                        borderRadius: "12px",
+                        marginTop: "12px",
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.07)",
                       }}
                       alt="Product preview"
                     />
                     <button
                       type="button"
+                      className="saas-btn-outline"
                       onClick={() => {
                         setProductImage(null);
                         setProductPreview(null);
                         setGarmentBase64(null);
                       }}
-                      className="mt-3 inline-flex h-9 items-center justify-center rounded-lg border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-900 hover:bg-zinc-50"
+                      style={{
+                        marginTop: "14px",
+                        padding: "12px 20px",
+                        borderRadius: "10px",
+                        border: "1px solid #d1d5db",
+                        backgroundColor: "#ffffff",
+                        color: "#374151",
+                        cursor: "pointer",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                      }}
                     >
                       Remove
                     </button>
                   </div>
                 ) : (
+                  <div className="saas-upload-zone mt-3" style={uploadZoneStyle}>
                   <input
                     type="file"
                     accept="image/*"
@@ -542,23 +776,26 @@ export default function Home() {
                         );
                       }
                     }}
-                    className="mt-2 block w-full cursor-pointer rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 file:mr-4 file:rounded-md file:border-0 file:bg-zinc-100 file:px-3 file:py-2 file:text-sm file:font-medium file:text-zinc-900 hover:file:bg-zinc-200"
+                    className="block w-full cursor-pointer bg-transparent px-1 py-1 text-sm text-zinc-700 file:mr-4 file:cursor-pointer file:rounded-lg file:border-0 file:bg-zinc-100 file:px-4 file:py-2 file:text-sm file:font-medium file:text-zinc-800 hover:file:bg-zinc-200"
                   />
+                  </div>
                 )}
               </>
             ) : (
               <>
                 <div className="text-left">
-                  <h3>Upload Top</h3>
-                  <div
+                  <h3
                     style={{
-                      border: "2px dashed #ccc",
-                      borderRadius: "12px",
-                      padding: "20px",
+                      fontSize: "15px",
+                      fontWeight: 600,
+                      color: "#111827",
                       textAlign: "center",
-                      cursor: "pointer",
+                      marginBottom: "10px",
                     }}
                   >
+                    Upload Top
+                  </h3>
+                  <div className="saas-upload-zone" style={uploadZoneStyle}>
                     <input
                       type="file"
                       accept="image/*"
@@ -582,12 +819,14 @@ export default function Home() {
                               width: "100%",
                               maxHeight: "200px",
                               objectFit: "cover",
-                              borderRadius: "10px",
+                              borderRadius: "12px",
+                              boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
                             }}
                             alt="Top preview"
                           />
                           <button
                             type="button"
+                            className="saas-btn-scale"
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
@@ -598,7 +837,7 @@ export default function Home() {
                               position: "absolute",
                               top: "5px",
                               right: "5px",
-                              background: "red",
+                              background: "#6b7280",
                               color: "white",
                               border: "none",
                               borderRadius: "50%",
@@ -618,16 +857,18 @@ export default function Home() {
                 </div>
 
                 <div className="text-left">
-                  <h3>Upload Bottom</h3>
-                  <div
+                  <h3
                     style={{
-                      border: "2px dashed #ccc",
-                      borderRadius: "12px",
-                      padding: "20px",
+                      fontSize: "15px",
+                      fontWeight: 600,
+                      color: "#111827",
                       textAlign: "center",
-                      cursor: "pointer",
+                      marginBottom: "10px",
                     }}
                   >
+                    Upload Bottom
+                  </h3>
+                  <div className="saas-upload-zone" style={uploadZoneStyle}>
                     <input
                       type="file"
                       accept="image/*"
@@ -651,12 +892,14 @@ export default function Home() {
                               width: "100%",
                               maxHeight: "200px",
                               objectFit: "cover",
-                              borderRadius: "10px",
+                              borderRadius: "12px",
+                              boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
                             }}
                             alt="Bottom preview"
                           />
                           <button
                             type="button"
+                            className="saas-btn-scale"
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
@@ -667,7 +910,7 @@ export default function Home() {
                               position: "absolute",
                               top: "5px",
                               right: "5px",
-                              background: "red",
+                              background: "#6b7280",
                               color: "white",
                               border: "none",
                               borderRadius: "50%",
@@ -688,123 +931,282 @@ export default function Home() {
               </>
             )}
 
-            <p style={{ fontSize: "14px", color: "gray" }}>
+            {mode === "simple" && garmentBase64 ? (
+              <div style={{ marginTop: "16px", marginBottom: "20px" }}>
+                <img
+                  src={garmentBase64}
+                  alt="Selected garment preview"
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    height: "auto",
+                    marginTop: "15px",
+                    borderRadius: "12px",
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.07)",
+                  }}
+                />
+              </div>
+            ) : null}
+
+            <p
+              style={{
+                fontSize: "14px",
+                color: "#6b7280",
+                marginTop: 0,
+                marginBottom: "12px",
+              }}
+            >
               Use clear, front-facing outfit images for best results
             </p>
 
             <button
               type="button"
+              className="saas-btn-primary"
               onClick={handleGenerate}
               disabled={isDisabled}
-              className="inline-flex h-11 w-full items-center justify-center rounded-lg bg-zinc-900 px-4 text-sm font-medium text-white hover:bg-zinc-800 active:bg-zinc-950 disabled:cursor-not-allowed disabled:opacity-70"
+              style={{
+                ...primaryBtn,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                width: "100%",
+                marginTop: "10px",
+                fontSize: "15px",
+                cursor: isDisabled ? "not-allowed" : "pointer",
+                backgroundColor: isDisabled ? "#9ca3af" : "#111827",
+                opacity: isDisabled ? 0.85 : 1,
+                color: "#ffffff",
+              }}
             >
-              {isLoading ? "Generating..." : "Generate Product Photo"}
+              <span style={{ display: "flex", flexShrink: 0 }} aria-hidden>
+                <IconOutlineZap size={17} />
+              </span>
+              <span>{isLoading ? "Generating..." : "Generate Product Photo"}</span>
             </button>
 
-            {isLoading && (
-              <div style={{ marginTop: "15px", textAlign: "center" }}>
-                <p>Generating your product image...</p>
+            {isLoading ? (
+              <div style={{ marginTop: "18px", textAlign: "center" }}>
+                <p className="text-sm text-zinc-600">
+                  Generating your product image...
+                </p>
                 <div
                   style={{
                     width: "30px",
                     height: "30px",
-                    border: "4px solid #ccc",
-                    borderTop: "4px solid #007bff",
+                    border: "4px solid #e5e7eb",
+                    borderTop: "4px solid #111827",
                     borderRadius: "50%",
                     animation: "spin 1s linear infinite",
                     margin: "10px auto",
                   }}
                 />
               </div>
-            )}
-          </div>
+            ) : null}
+          </section>
 
-          {error ? (
-            <p className="mx-auto mt-4 max-w-md text-sm text-red-600">
-              {error}
-            </p>
-          ) : null}
+          <hr className="saas-divider" />
 
-          {isLoading ? (
-            <p className="mx-auto mt-6 max-w-md text-sm text-zinc-600">
-              Uploading…
-            </p>
-          ) : null}
+          <section className="saas-card">
+            {error ? (
+              <p className="mb-4 text-left text-sm text-red-600">{error}</p>
+            ) : null}
 
-          {jobId && jobStatus && jobStatus !== "completed" && jobStatus !== "failed" ? (
-            <p className="mx-auto mt-6 max-w-md text-sm text-zinc-600">
-              Processing…
-            </p>
-          ) : null}
-
-          {mode === "simple" && garmentBase64 ? (
-            <div className="mx-auto mt-10 w-full max-w-md">
-              <div className="overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50">
-                <img
-                  src={garmentBase64}
-                  alt="Selected garment preview"
-                  className="h-auto w-full object-contain"
-                />
-              </div>
-            </div>
-          ) : null}
-
-          {generatedImageUrl ? (
-            <div className="mx-auto mt-6 w-full max-w-md">
-              <h3>Generated Product Image</h3>
-              <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white">
-                <img
-                  src={generatedImageUrl}
-                  alt="Generated result"
-                  style={{
-                    width: "100%",
-                    maxWidth: "400px",
-                    borderRadius: "12px",
-                    marginTop: "15px",
-                  }}
-                />
-              </div>
-              <button
-                type="button"
-                onClick={handleDownload}
-                className="mt-3 inline-flex h-10 w-full items-center justify-center rounded-lg border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-900 hover:bg-zinc-50"
-              >
-                Download Image
-              </button>
-              <button
-                type="button"
-                onClick={handleGenerate}
-                style={{
-                  marginTop: "15px",
-                  padding: "10px 20px",
-                  backgroundColor: "#007bff",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  fontSize: "14px",
-                }}
-                onMouseOver={(e) => {
-                  (e.target as HTMLButtonElement).style.backgroundColor =
-                    "#0056b3";
-                }}
-                onMouseOut={(e) => {
-                  (e.target as HTMLButtonElement).style.backgroundColor =
-                    "#007bff";
-                }}
-              >
-                Generate Again
-              </button>
-            </div>
-          ) : (
-            <div className="mx-auto mt-10 w-full max-w-md px-4">
-              <p className="text-center text-base leading-relaxed text-zinc-500">
-                Select a model and upload outfit to start
+            {isLoading ? (
+              <p className="mb-2 text-center text-sm text-zinc-600">
+                Uploading…
               </p>
-            </div>
-          )}
-          </div>
+            ) : null}
+
+            {jobId && jobStatus && jobStatus !== "completed" && jobStatus !== "failed" ? (
+              <p className="mb-2 text-center text-sm text-zinc-600">
+                Processing…
+              </p>
+            ) : null}
+
+            {generatedImageUrl ? (
+              <div className="w-full">
+                <h3
+                  className="mb-2"
+                  style={{
+                    fontSize: "17px",
+                    fontWeight: 600,
+                    color: "#111827",
+                    textAlign: "center",
+                  }}
+                >
+                  Generated Product Image
+                </h3>
+                <p
+                  style={{
+                    margin: "6px 0 10px",
+                    textAlign: "center",
+                    fontSize: "14px",
+                    color: "#16a34a",
+                  }}
+                >
+                  Image generated successfully
+                </p>
+                <div
+                  key={generatedImageUrl}
+                  className="saas-result-image-wrap overflow-hidden rounded-xl border border-zinc-200/70 bg-transparent"
+                  style={{
+                    maxWidth: "400px",
+                    margin: "15px auto 0",
+                  }}
+                >
+                  <img
+                    src={generatedImageUrl}
+                    alt="Generated result"
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      borderRadius: "12px",
+                      boxShadow: "0 6px 20px rgba(0, 0, 0, 0.09)",
+                    }}
+                  />
+                </div>
+                <button
+                  type="button"
+                  className="saas-btn-outline"
+                  onClick={handleDownload}
+                  style={{
+                    marginTop: "14px",
+                    width: "100%",
+                    padding: "12px 20px",
+                    borderRadius: "10px",
+                    border: "1px solid #d1d5db",
+                    backgroundColor: "#ffffff",
+                    color: "#374151",
+                    cursor: "pointer",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                  }}
+                >
+                  Download Image
+                </button>
+                <button
+                  type="button"
+                  onClick={handleGenerate}
+                  style={{
+                    display: "block",
+                    marginTop: "10px",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    padding: "6px 14px",
+                    borderRadius: "8px",
+                    border: "1px solid #e8eaed",
+                    backgroundColor: "#fafbfc",
+                    color: "#9ca3af",
+                    cursor: "pointer",
+                    fontSize: "12px",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = "#f4f5f7";
+                    e.currentTarget.style.borderColor = "#d8dce2";
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = "#fafbfc";
+                    e.currentTarget.style.borderColor = "#e8eaed";
+                  }}
+                >
+                  Generate Again
+                </button>
+              </div>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  minHeight: "280px",
+                  padding: "32px 20px",
+                  textAlign: "center",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "18px",
+                    maxWidth: "300px",
+                  }}
+                >
+                  <div
+                    aria-hidden
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "72px",
+                      height: "72px",
+                      borderRadius: "12px",
+                      color: "#9ca3af",
+                      backgroundColor: "rgba(156, 163, 175, 0.12)",
+                      border: "1px solid rgba(156, 163, 175, 0.22)",
+                    }}
+                  >
+                    <svg
+                      width="36"
+                      height="36"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden
+                    >
+                      <rect
+                        x="3"
+                        y="3"
+                        width="18"
+                        height="18"
+                        rx="2"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                      />
+                      <circle cx="8.75" cy="8.75" r="1.5" fill="currentColor" />
+                      <polyline
+                        points="21 15 16 10 5 21"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        fill="none"
+                      />
+                    </svg>
+                  </div>
+                  <p
+                    style={{
+                      margin: 0,
+                      fontSize: "14px",
+                      fontWeight: 400,
+                      lineHeight: 1.55,
+                      color: "#9ca3af",
+                    }}
+                  >
+                    Your generated product image will appear here
+                  </p>
+                </div>
+              </div>
+            )}
+          </section>
         </div>
+
+        <footer
+          style={{
+            marginTop: "30px",
+            paddingBottom: "8px",
+            textAlign: "center",
+            fontSize: "12px",
+            color: "#9ca3af",
+            letterSpacing: "0.01em",
+          }}
+        >
+          Built for clothing brands
+        </footer>
       </div>
     </main>
   );

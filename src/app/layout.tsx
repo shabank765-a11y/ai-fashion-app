@@ -27,7 +27,17 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body
+        className="min-h-full flex flex-col"
+        style={{
+          minHeight: "100%",
+          background:
+            "radial-gradient(circle at top, #ffffff, #f1f5f9)",
+          color: "#111827",
+        }}
+      >
+        {children}
+      </body>
     </html>
   );
 }

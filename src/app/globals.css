@@ -33,3 +33,122 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* Premium SaaS UI utilities (page.tsx) */
+.saas-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.saas-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.saas-divider {
+  flex-shrink: 0;
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  margin: 16px 0;
+  width: 100%;
+  background: transparent;
+}
+
+.saas-btn-primary {
+  transition: all 0.2s ease;
+}
+
+.saas-btn-primary:not(:disabled) {
+  box-shadow: 0 4px 20px rgba(17, 24, 39, 0.25);
+}
+
+.saas-btn-primary:disabled {
+  box-shadow: none;
+  transform: none;
+}
+
+.saas-btn-primary:hover:not(:disabled) {
+  background-color: #1f2937 !important;
+  transform: scale(1.03);
+}
+
+.saas-btn-primary:active:not(:disabled) {
+  transform: scale(1);
+}
+
+.saas-btn-solid {
+  transition: all 0.2s ease;
+}
+
+.saas-btn-solid:hover:not(:disabled) {
+  background-color: #1f2937 !important;
+  transform: scale(1.03);
+}
+
+.saas-btn-solid:active:not(:disabled) {
+  transform: scale(1);
+}
+
+.saas-btn-outline {
+  transition: all 0.2s ease;
+}
+
+.saas-btn-outline:hover:not(:disabled) {
+  border-color: #111827;
+  background-color: #f9fafb;
+  transform: scale(1.03);
+}
+
+.saas-btn-outline:active:not(:disabled) {
+  transform: scale(1);
+}
+
+.saas-btn-scale {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.saas-btn-scale:hover:not(:disabled) {
+  transform: none;
+}
+
+.saas-btn-scale:active:not(:disabled) {
+  transform: none;
+}
+
+.saas-upload-zone {
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.saas-upload-zone:hover {
+  border-color: #111827;
+}
+
+@keyframes saas-result-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.saas-result-image-wrap {
+  animation: saas-result-enter 0.3s ease forwards;
+}
+
+.saas-model-thumb {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.saas-model-thumb--selected {
+  transform: scale(1.03);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
