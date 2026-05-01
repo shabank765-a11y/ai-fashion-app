@@ -100,6 +100,71 @@ const mergeImages = async (topFile: File, bottomFile: File): Promise<Blob> => {
   });
 };
 
+const MAX_API_IMAGE_WIDTH = 800;
+const API_JPEG_QUALITY = 0.7;
+
+async function fetchImageAsBlob(url: string): Promise<Blob> {
+  const fullUrl =
+    typeof window !== "undefined" && url.startsWith("/")
+      ? `${window.location.origin}${url}`
+      : url;
+  const res = await fetch(fullUrl);
+  if (!res.ok) throw new Error("Failed to load image.");
+  return res.blob();
+}
+
+function compressImageElementToJpegDataUrl(
+  img: HTMLImageElement,
+  maxWidth = MAX_API_IMAGE_WIDTH,
+  quality = API_JPEG_QUALITY,
+): string {
+  const srcW = img.naturalWidth || img.width;
+  const srcH = img.naturalHeight || img.height;
+  if (!srcW || !srcH) throw new Error("Invalid image dimensions.");
+
+  let dstW = srcW;
+  let dstH = srcH;
+  if (srcW > maxWidth) {
+    dstW = maxWidth;
+    dstH = Math.round((srcH * maxWidth) / srcW);
+  }
+
+  const canvas = document.createElement("canvas");
+  canvas.width = dstW;
+  canvas.height = dstH;
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Canvas is not supported.");
+
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(img, 0, 0, dstW, dstH);
+
+  return canvas.toDataURL("image/jpeg", quality);
+}
+
+async function compressImageFileOrBlobToJpegDataUrl(
+  input: File | Blob,
+  maxWidth = MAX_API_IMAGE_WIDTH,
+  quality = API_JPEG_QUALITY,
+): Promise<string> {
+  const file =
+    input instanceof File
+      ? input
+      : new File([input], "image.jpg", { type: input.type || "image/jpeg" });
+  const img = await loadImageFromFile(file);
+  return compressImageElementToJpegDataUrl(img, maxWidth, quality);
+}
+
+async function compressImageFromUrlToJpegDataUrl(
+  url: string,
+  maxWidth = MAX_API_IMAGE_WIDTH,
+  quality = API_JPEG_QUALITY,
+): Promise<string> {
+  const blob = await fetchImageAsBlob(url);
+  return compressImageFileOrBlobToJpegDataUrl(blob, maxWidth, quality);
+}
+
 function getErrorMessage(value: unknown): string | null {
   if (!value || typeof value !== "object") return null;
   if (!("error" in value)) return null;
@@ -221,18 +286,22 @@ export default function Home() {
     setJobStatus(null);
 
     try {
-      const file =
+      const productFileOrBlob =
         finalImage instanceof File
           ? finalImage
           : new File([finalImage], "product.jpg", { type: "image/jpeg" });
-      const finalBase64 = await resizeImageToMinDataUrl(file, 512);
+      const productBase64 =
+        await compressImageFileOrBlobToJpegDataUrl(productFileOrBlob);
+      const modelBase64 = await compressImageFromUrlToJpegDataUrl(
+        selectedModel.apiImage,
+      );
 
       const res = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model_image: selectedModel.apiImage,
-          product_image: finalBase64,
+          model_image: modelBase64,
+          product_image: productBase64,
           mode,
         }),
       });
